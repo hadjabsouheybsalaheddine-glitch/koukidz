@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KouKidz</title>
+<meta name="theme-color" content="#7d1734">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KouKidz">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+
+<style>
+:root{
+  --burg:#7d1734;
+  --gold:#c9a45c;
+  --bg:#faf7f5;
+  --white:#fff;
+  --text:#292929;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#eee;
+  color:var(--text);
+}
+
+.phone{
+  max-width:430px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
+  position:relative;
+  padding-bottom:calc(75px + env(safe-area-inset-bottom));
+  overflow:hidden;
+}
+
+header{
+  background:linear-gradient(135deg,var(--burg),#b21e43);
+  color:white;
+  padding:20px 16px 16px;
+  border-radius:0 0 25px 25px;
+}
+
+.brand{
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.tag{
+  font-size:12px;
+  opacity:.9;
+  margin-top:3px;
+}
+
+.search{
+  margin-top:18px;
+  background:white;
+  color:#777;
+  padding:12px 15px;
+  border-radius:14px;
+  font-size:14px;
+  border:0;
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+}
+
+.content{
+  padding:18px;
+}
+
+.hero{
+  background:linear-gradient(135deg,#8d1738,#c52c50);
+  color:white;
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:20px;
+}
+
+.hero h2{
+  margin:0 0 8px;
+  font-size:24px;
+}
+
+.hero p{
+  margin:0 0 15px;
+}
+
+.btn{
+  display:inline-block;
+  background:var(--gold);
+  color:white;
+  border:0;
+  padding:11px 17px;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.row h3{margin:0}
+
+.link{
+  color:var(--burg);
+  font-size:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:12px;
+  box-shadow:0 3px 12px #00000010;
+}
+
+.pic{
+  height:115px;
+  background:#f4e5e8;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:55px;
+}
+
+.card h4{
+  margin:9px 0 5px;
+  font-size:15px;
+}
+
+.price{
+  color:var(--burg);
+  font-weight:bold;
+  margin-bottom:9px;
+}
+
+.card button{
+  width:100%;
+  border:0;
+  background:var(--burg);
+  color:white;
+  padding:9px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.cart-item{
+  background:white;
+  padding:13px;
+  border-radius:15px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.qty button{
+  border:0;
+  background:#eee;
+  width:28px;
+  height:28px;
+  border-radius:8px;
+}
+
+.total{
+  background:white;
+  padding:16px;
+  border-radius:16px;
+  margin-top:15px;
+  font-weight:bold;
+}
+
+.whatsapp{
+  width:100%;
+  margin-top:12px;
+  background:#25D366;
+  color:white;
+  border:0;
+  padding:13px;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:430px;
+  background:white;
+  border-top:1px solid #ddd;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+  z-index:10;
+}
+
+.navitem{
+  text-align:center;
+  font-size:12px;
+  color:#777;
+  cursor:pointer;
+  padding:5px;
+}
+
+.navitem.active{
+  color:var(--burg);
+  font-weight:bold;
+}
+
+.navicon{
+  font-size:20px;
+  display:block;
+  margin-bottom:3px;
+}
+
+.account{
+  background:white;
+  padding:20px;
+  border-radius:18px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  margin:7px 0 12px;
+}
+
+.empty{
+  text-align:center;
+  padding:35px 10px;
+  color:#888;
+}
+
+.toolbar{display:flex;gap:8px;align-items:center;margin:0 0 16px}
+.toolbar input{margin:0;flex:1;min-width:0}
+.filter-select{padding:12px 10px;border:1px solid #ddd;border-radius:10px;background:white;color:var(--text)}
+.detail-pic{height:240px;font-size:100px;margin-bottom:18px}
+.detail-panel,.profile-summary{background:white;padding:18px;border-radius:16px;margin-bottom:14px}
+.detail-panel h2{margin:0 0 8px}
+.detail-panel p{line-height:1.5;color:#666}
+.detail-price{font-size:22px;margin:14px 0}
+.detail-actions{display:flex;gap:10px}
+.detail-actions button{flex:1}
+.secondary-btn{background:#f1e5e8!important;color:var(--burg)!important}
+.category-card{cursor:pointer}
+.category-card .pic{height:100px}
+.cart-badge{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;padding:0 5px;margin-left:3px;background:var(--burg);color:white;border-radius:10px;font-size:11px}
+.account label{font-weight:600;font-size:13px}
+.account .btn{width:100%}
+.saved-message{min-height:20px;color:var(--burg);font-size:13px}
+.install-area{margin-top:20px;padding-top:16px;border-top:1px solid #eee}
+.install-help{font-size:13px;line-height:1.5;color:#666}
+.install-button{width:100%}
+
+@media(max-width:360px){
+  .content{padding:14px}
+  .grid{gap:9px}
+  .card{padding:9px}
+  .pic{height:100px}
+  nav{padding-left:2px;padding-right:2px}
+  .navitem{font-size:11px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+<header>
+  <div class="brand">KouKidz</div>
+  <div class="tag">Accessoires Téléphone</div>
+
+  <button class="search" onclick="showPage('search')" aria-label="Ouvrir la recherche">
+    🔍 &nbsp; Rechercher un produit...
+  </button>
+</header>
+
+<div id="actionFeedback" role="status" aria-live="polite" style="display:none;padding:9px 18px;color:var(--burg);font-size:13px"></div>
+
+<main class="content">
+
+<!-- ACCUEIL -->
+<section id="home" class="page active">
+
+  <div class="hero">
+    <h2>Bienvenue chez KouKidz</h2>
+    <p>Découvrez nos accessoires téléphone et nos meilleures offres.</p>
+    <button class="btn" onclick="showPage('products')">
+      Découvrir
+    </button>
+  </div>
+
+  <div class="row">
+    <h3>Catégories</h3>
+    <span class="link" onclick="showPage('categories')" style="cursor:pointer">Voir tout</span>
+  </div>
+
+  <div class="grid">
+
+    <div class="card category-card" onclick="showCategory('Coques')">
+      <div class="pic">📱</div>
+      <h4>Coques</h4>
+    </div>
+
+    <div class="card category-card" onclick="showCategory('Audio')">
+      <div class="pic">🎧</div>
+      <h4>Audio</h4>
+    </div>
+
+    <div class="card category-card" onclick="showCategory('Chargeurs')">
+      <div class="pic">🔌</div>
+      <h4>Chargeurs</h4>
+    </div>
+
+    <div class="card category-card" onclick="showCategory('Power Banks')">
+      <div class="pic">🔋</div>
+      <h4>Power Banks</h4>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div class="row">
+    <h3>Nouveautés</h3>
+    <span class="link" onclick="showPage('products')">Voir tout</span>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="pic">📱</div>
+      <h4>Coque Premium</h4>
+      <div class="price">40 DA</div>
+      <button onclick="addToCart('Coque Premium',40)">
+        Ajouter
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="pic">✨</div>
+      <h4>Accessoire</h4>
+      <div class="price">À partir de 40 DA</div>
+      <button onclick="addToCart('Accessoire',40)">
+        Ajouter
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- PRODUITS -->
+<section id="products" class="page">
+
+  <div class="row">
+    <h2>Produits</h2>
+  </div>
+  <div class="toolbar">
+    <select id="categoryFilter" class="filter-select" aria-label="Filtrer par catégorie" onchange="renderProducts()">
+      <option value="all">Toutes les catégories</option>
+      <option>Coques</option><option>Audio</option><option>Chargeurs</option><option>Power Banks</option>
+    </select>
+    <select id="sortProducts" class="filter-select" aria-label="Trier les produits" onchange="renderProducts()">
+      <option value="featured">Trier</option><option value="price-asc">Prix croissant</option><option value="price-desc">Prix décroissant</option>
+    </select>
+  </div>
+  <div id="productGrid" class="grid"></div>
+
+</section>
+
+<!-- CATEGORIES -->
+<section id="categories" class="page">
+  <div class="row"><h2>Catégories</h2></div>
+  <div class="grid">
+    <div class="card category-card" onclick="showCategory('Coques')"><div class="pic">📱</div><h4>Coques</h4></div>
+    <div class="card category-card" onclick="showCategory('Audio')"><div class="pic">🎧</div><h4>Audio</h4></div>
+    <div class="card category-card" onclick="showCategory('Chargeurs')"><div class="pic">🔌</div><h4>Chargeurs</h4></div>
+    <div class="card category-card" onclick="showCategory('Power Banks')"><div class="pic">🔋</div><h4>Power Banks</h4></div>
+  </div>
+</section>
+
+<!-- RECHERCHE -->
+<section id="search" class="page">
+  <div class="row"><h2>Recherche</h2></div>
+  <div class="toolbar"><input id="searchInput" type="search" placeholder="Nom ou catégorie..." aria-label="Rechercher un produit" oninput="renderSearchResults()"></div>
+  <div id="searchResults" class="grid"></div>
+</section>
+
+<!-- DETAILS PRODUIT -->
+<section id="productDetails" class="page">
+  <div class="row"><span class="link" onclick="goBackFromDetails()" style="cursor:pointer">← Retour</span></div>
+  <div id="productDetailContent"></div>
+</section>
+
+
+<!-- PANIER -->
+<section id="cart" class="page">
+
+  <div class="row">
+    <h2>🛒 Panier</h2>
+    <span class="link" onclick="showPage('products')" style="cursor:pointer">Continuer mes achats</span>
+  </div>
+
+  <div id="cartItems"></div>
+
+  <div class="total" id="cartTotalBox">
+    Total : <span id="total">0</span> DA
+  </div>
+
+  <button class="whatsapp" onclick="sendWhatsApp()">
+    📲 Commander sur WhatsApp
+  </button>
+
+</section>
+
+
+<!-- COMPTE -->
+<section id="account" class="page">
+
+  <div class="row">
+    <h2>👤 Mon compte</h2>
+  </div>
+
+  <div class="account">
+
+    <label>Nom</label>
+    <input id="name" placeholder="Votre nom">
+
+    <label>Téléphone</label>
+    <input id="phone" placeholder="Votre numéro">
+
+    <label>Adresse</label>
+    <input id="address" placeholder="Votre adresse">
+
+    <button class="btn" onclick="saveAccount()">
+      Enregistrer
+    </button>
+
+    <p id="saved" class="saved-message" aria-live="polite"></p>
+
+    <div class="install-area">
+      <button id="installButton" class="btn install-button" type="button" hidden>Installer KouKidz</button>
+      <p id="installHelp" class="install-help" hidden></p>
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<nav>
+
+  <div class="navitem active" onclick="showPage('home',this)">
+    <span class="navicon">🏠</span>
+    Accueil
+  </div>
+
+  <div class="navitem" onclick="showPage('products',this)">
+    <span class="navicon">🛍️</span>
+    Produits
+  </div>
+
+  <div class="navitem" onclick="showPage('cart',this)">
+    <span class="navicon">🛒</span>
+    Panier <span id="cartBadge" class="cart-badge" hidden>0</span>
+  </div>
+
+  <div class="navitem" onclick="showPage('account',this)">
+    <span class="navicon">👤</span>
+    Compte
+  </div>
+
+</nav>
+
+</div>
+
+
+<script>
+
+const products = [
+  {id:'case', name:'Coque Premium', category:'Coques', price:40, icon:'📱', description:'Une coque de test légère pour protéger votre téléphone au quotidien.'},
+  {id:'earbuds', name:'Écouteurs', category:'Audio', price:40, icon:'🎧', description:'Un modèle audio de démonstration pour tester le catalogue et le panier.'},
+  {id:'charger', name:'Chargeur', category:'Chargeurs', price:40, icon:'🔌', description:'Un chargeur de test pour vérifier le parcours de commande.'},
+  {id:'powerbank', name:'Power Bank', category:'Power Banks', price:40, icon:'🔋', description:'Une batterie externe de démonstration, disponible uniquement comme produit test.'},
+  {id:'accessory', name:'Accessoire', category:'Coques', price:40, icon:'✨', description:'Un accessoire placeholder pour tester les écrans et les interactions.'}
+];
+
+let cart = readStoredCart();
+let currentPage = 'home';
+let detailsReturnPage = 'products';
+
+function readStoredCart(){
+  try{
+    const stored = JSON.parse(localStorage.getItem('koukidz_cart') || '[]');
+    return Array.isArray(stored) ? stored.filter(item => item.name && item.price > 0 && item.qty > 0) : [];
+  }catch(error){
+    return [];
+  }
+}
+
+function showPage(page, element){
+  const target = document.getElementById(page);
+  if(!target) return;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  target.classList.add('active');
+  currentPage = page;
+  document.querySelectorAll('.navitem').forEach(n => n.classList.remove('active'));
+  const navPage = ['categories','search','productDetails'].includes(page) ? 'products' : page;
+  const navItems = Array.from(document.querySelectorAll('.navitem'));
+  const navIndex = {home:0, products:1, cart:2, account:3}[navPage];
+  if(element && element.classList.contains('navitem')) element.classList.add('active');
+  else if(navItems[navIndex]) navItems[navIndex].classList.add('active');
+  if(page === 'products') renderProducts();
+  if(page === 'cart') updateCart();
+  if(page === 'account') loadAccount();
+  if(page === 'search') renderSearchResults();
+  window.scrollTo(0,0);
+}
+
+function showCategory(category){
+  document.getElementById('categoryFilter').value = category;
+  showPage('products');
+}
+
+function renderProductCard(product){
+  return `<div class="card">
+    <div class="pic" role="button" tabindex="0" aria-label="Voir ${product.name}" onclick="openProduct('${product.id}')" onkeydown="if(event.key==='Enter')openProduct('${product.id}')">${product.icon}</div>
+    <h4>${product.name}</h4><div class="price">${product.price} DA</div>
+    <button onclick="addToCart('${product.name}',${product.price})">Ajouter au panier</button>
+  </div>`;
+}
+
+function renderProducts(){
+  const selectedCategory = document.getElementById('categoryFilter').value;
+  const sortOrder = document.getElementById('sortProducts').value;
+  let shown = products.filter(product => selectedCategory === 'all' || product.category === selectedCategory);
+  if(sortOrder === 'price-asc') shown.sort((a,b) => a.price - b.price);
+  if(sortOrder === 'price-desc') shown.sort((a,b) => b.price - a.price);
+  document.getElementById('productGrid').innerHTML = shown.length
+    ? shown.map(renderProductCard).join('')
+    : '<div class="empty">Aucun produit dans cette catégorie.</div>';
+}
+
+function renderSearchResults(){
+  const query = document.getElementById('searchInput').value.trim().toLocaleLowerCase('fr');
+  const matches = products.filter(product => `${product.name} ${product.category}`.toLocaleLowerCase('fr').includes(query));
+  document.getElementById('searchResults').innerHTML = matches.length
+    ? matches.map(renderProductCard).join('')
+    : '<div class="empty">Aucun résultat. Essayez un autre nom ou une catégorie.</div>';
+}
+
+function openProduct(id){
+  const product = products.find(item => item.id === id);
+  if(!product) return;
+  detailsReturnPage = currentPage === 'productDetails' ? detailsReturnPage : currentPage;
+  document.getElementById('productDetailContent').innerHTML = `<div class="pic detail-pic">${product.icon}</div>
+    <div class="detail-panel"><h2>${product.name}</h2><div>${product.category}</div>
+    <div class="price detail-price">${product.price} DA</div><p>${product.description}</p>
+    <div class="detail-actions"><button class="btn" onclick="addToCart('${product.name}',${product.price})">Ajouter au panier</button>
+    <button class="btn secondary-btn" onclick="showPage('cart')">Voir le panier</button></div></div>`;
+  showPage('productDetails');
+}
+
+function goBackFromDetails(){
+  showPage(['products','search','home'].includes(detailsReturnPage) ? detailsReturnPage : 'products');
+}
+
+function announce(message){
+  const feedback = document.getElementById('actionFeedback');
+  feedback.textContent = message;
+  feedback.style.display = 'block';
+  window.clearTimeout(announce.timeout);
+  announce.timeout = window.setTimeout(() => feedback.style.display = 'none',2500);
+}
+
+function addToCart(name, price){
+  const existing = cart.find(item => item.name === name);
+  if(existing) existing.qty++;
+  else cart.push({name:name, price:price, qty:1});
+  updateCart();
+  announce(name + ' ajouté au panier');
+}
+
+function updateCart(){
+  const box = document.getElementById('cartItems');
+  let total = 0;
+  const itemCount = cart.reduce((sum,item) => sum + item.qty,0);
+  document.getElementById('cartBadge').textContent = itemCount;
+  document.getElementById('cartBadge').hidden = itemCount === 0;
+  if(cart.length === 0){
+    box.innerHTML = '<div class="empty">🛒<br><br>Votre panier est vide</div>';
+  }else{
+    box.innerHTML = cart.map((item,index) => {
+      total += item.price * item.qty;
+      return `<div class="cart-item"><div><b>${item.name}</b><br>${item.price} DA × ${item.qty}</div>
+        <div class="qty"><button aria-label="Retirer un ${item.name}" onclick="changeQty(${index},-1)">−</button>
+        <button aria-label="Ajouter un ${item.name}" onclick="changeQty(${index},1)">+</button></div></div>`;
+    }).join('');
+  }
+  document.getElementById('total').textContent = total;
+  document.getElementById('cartTotalBox').hidden = cart.length === 0;
+  localStorage.setItem('koukidz_cart',JSON.stringify(cart));
+}
+
+function changeQty(index,value){
+  if(!cart[index]) return;
+  cart[index].qty += value;
+  if(cart[index].qty <= 0) cart.splice(index,1);
+  updateCart();
+}
+
+function sendWhatsApp(){
+  if(cart.length === 0){
+    announce('Votre panier est vide.');
+    return;
+  }
+  const total = cart.reduce((sum,item) => sum + item.price * item.qty,0);
+  const message = ['Bonjour KouKidz,','Je souhaite commander :',...cart.map(item => `- ${item.name} x${item.qty} = ${item.price * item.qty} DA`),`Total : ${total} DA`].join('\n');
+  window.open('https://wa.me/97477773581?text=' + encodeURIComponent(message),'_blank','noopener');
+}
+
+function loadAccount(){
+  document.getElementById('name').value = localStorage.getItem('koukidz_name') || '';
+  document.getElementById('phone').value = localStorage.getItem('koukidz_phone') || '';
+  document.getElementById('address').value = localStorage.getItem('koukidz_address') || '';
+}
+
+function saveAccount(){
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  if(!name || !phone){
+    document.getElementById('saved').textContent = 'Veuillez renseigner votre nom et votre téléphone.';
+    return;
+  }
+  localStorage.setItem('koukidz_name',name);
+  localStorage.setItem('koukidz_phone',phone);
+  localStorage.setItem('koukidz_address',address);
+  document.getElementById('saved').textContent = 'Informations enregistrées.';
+}
+
+document.getElementById('searchInput').addEventListener('keydown',event => {
+  if(event.key === 'Enter'){
+    const firstResult = products.find(product => `${product.name} ${product.category}`.toLocaleLowerCase('fr').includes(event.currentTarget.value.trim().toLocaleLowerCase('fr')));
+    if(firstResult) openProduct(firstResult.id);
+  }
+});
+
+document.querySelector('.search').addEventListener('click',() => window.setTimeout(() => document.getElementById('searchInput').focus(),0));
+
+let deferredInstallPrompt = null;
+const installButton = document.getElementById('installButton');
+const installHelp = document.getElementById('installHelp');
+
+window.addEventListener('beforeinstallprompt',event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installButton.hidden = false;
+});
+
+installButton.addEventListener('click',async () => {
+  if(!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  installButton.hidden = true;
+});
+
+window.addEventListener('appinstalled',() => {
+  installButton.hidden = true;
+  installHelp.hidden = true;
+});
+
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+if(isIOS && !isStandalone){
+  installHelp.textContent = 'Pour installer KouKidz, touchez Partager dans Safari, puis « Sur l’écran d’accueil ». ';
+  installHelp.hidden = false;
+}
+
+if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')){
+  window.addEventListener('load',() => {
+    navigator.serviceWorker.register('./service-worker.js').catch(error => console.error('KouKidz service worker registration failed:',error));
+  });
+}
+
+renderProducts();
+loadAccount();
+updateCart();
+
+</script>
+
+</body>
+</html>
